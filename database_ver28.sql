@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `improokcare` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `improokcare`;
--- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
 --
 -- Host: localhost    Database: improokcare
 -- ------------------------------------------------------
--- Server version	8.0.33
+-- Server version	8.0.17
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -25,13 +25,13 @@ DROP TABLE IF EXISTS `booking`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `booking` (
-  `booking_id` int NOT NULL AUTO_INCREMENT,
-  `schedule_id` int DEFAULT NULL,
-  `profile_patient_id` int DEFAULT NULL,
+  `booking_id` int(11) NOT NULL AUTO_INCREMENT,
+  `schedule_id` int(11) DEFAULT NULL,
+  `profile_patient_id` int(11) DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
   `deleted_date` datetime DEFAULT NULL,
-  `status_id` int DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL,
   `booking_cancel` tinyint(1) DEFAULT NULL,
   `active` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`booking_id`),
@@ -62,7 +62,7 @@ DROP TABLE IF EXISTS `booking_status`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `booking_status` (
-  `status_id` int NOT NULL AUTO_INCREMENT,
+  `status_id` int(11) NOT NULL AUTO_INCREMENT,
   `status_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
@@ -83,6 +83,66 @@ INSERT INTO `booking_status` VALUES (1,'Chờ xác nhận',NULL,NULL,NULL,1),(2,
 UNLOCK TABLES;
 
 --
+-- Table structure for table `chatgpt_consult`
+--
+
+DROP TABLE IF EXISTS `chatgpt_consult`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `chatgpt_consult` (
+  `chatgpt_consult_id` int(11) NOT NULL AUTO_INCREMENT,
+  `chatgpt_consult_answer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `deleted_date` datetime DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `chatgpt_question_id` int(11) DEFAULT NULL,
+  `active` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`chatgpt_consult_id`),
+  KEY `user_id` (`user_id`),
+  KEY `chatgpt_question_id` (`chatgpt_question_id`),
+  CONSTRAINT `chatgpt_consult_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `chatgpt_consult_ibfk_2` FOREIGN KEY (`chatgpt_question_id`) REFERENCES `chatgpt_question` (`chatgpt_question_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `chatgpt_consult`
+--
+
+LOCK TABLES `chatgpt_consult` WRITE;
+/*!40000 ALTER TABLE `chatgpt_consult` DISABLE KEYS */;
+/*!40000 ALTER TABLE `chatgpt_consult` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `chatgpt_question`
+--
+
+DROP TABLE IF EXISTS `chatgpt_question`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `chatgpt_question` (
+  `chatgpt_question_id` int(11) NOT NULL AUTO_INCREMENT,
+  `chatgpt_question_content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `deleted_date` datetime DEFAULT NULL,
+  `active` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`chatgpt_question_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `chatgpt_question`
+--
+
+LOCK TABLES `chatgpt_question` WRITE;
+/*!40000 ALTER TABLE `chatgpt_question` DISABLE KEYS */;
+/*!40000 ALTER TABLE `chatgpt_question` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `collab_doctor`
 --
 
@@ -90,11 +150,11 @@ DROP TABLE IF EXISTS `collab_doctor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `collab_doctor` (
-  `collab_id` int NOT NULL AUTO_INCREMENT,
+  `collab_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `phonenumber` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status_id` int DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
   `deleted_date` datetime DEFAULT NULL,
@@ -122,7 +182,7 @@ DROP TABLE IF EXISTS `collab_doctor_status`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `collab_doctor_status` (
-  `status_id` int NOT NULL AUTO_INCREMENT,
+  `status_id` int(11) NOT NULL AUTO_INCREMENT,
   `status_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
@@ -150,15 +210,15 @@ DROP TABLE IF EXISTS `comment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `comment` (
-  `comment_id` int NOT NULL AUTO_INCREMENT,
-  `profile_doctor_id` int DEFAULT NULL,
-  `user_id` int DEFAULT NULL,
+  `comment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `profile_doctor_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
   `deleted_date` datetime DEFAULT NULL,
-  `rating` int DEFAULT NULL,
+  `rating` int(11) DEFAULT NULL,
   `active` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`comment_id`),
   KEY `profile_doctor_id` (`profile_doctor_id`),
@@ -193,7 +253,7 @@ CREATE TABLE `districts` (
   `full_name_en` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `code_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `province_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `vietnam_unit_id` int DEFAULT NULL,
+  `vietnam_unit_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`code`),
   KEY `idx_districts_province` (`province_code`),
   KEY `idx_districts_unit` (`vietnam_unit_id`),
@@ -220,14 +280,14 @@ DROP TABLE IF EXISTS `medical_records`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `medical_records` (
-  `record_id` int NOT NULL AUTO_INCREMENT,
+  `record_id` int(11) NOT NULL AUTO_INCREMENT,
   `diagnosis` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `treatment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
   `deleted_date` datetime DEFAULT NULL,
   `active` tinyint(1) DEFAULT NULL,
-  `booking_id` int DEFAULT NULL,
+  `booking_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`record_id`),
   KEY `booking_id` (`booking_id`),
   CONSTRAINT `medical_records_ibfk_1` FOREIGN KEY (`booking_id`) REFERENCES `booking` (`booking_id`)
@@ -251,7 +311,7 @@ DROP TABLE IF EXISTS `medicine`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `medicine` (
-  `medicine_id` int NOT NULL AUTO_INCREMENT,
+  `medicine_id` int(11) NOT NULL AUTO_INCREMENT,
   `medicine_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `ingredients` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
@@ -262,7 +322,7 @@ CREATE TABLE `medicine` (
   `updated_date` datetime DEFAULT NULL,
   `deleted_date` datetime DEFAULT NULL,
   `active` tinyint(1) DEFAULT NULL,
-  `category_id` int DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`medicine_id`),
   KEY `category_id` (`category_id`),
   CONSTRAINT `medicine_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `medicine_category` (`category_id`)
@@ -287,7 +347,7 @@ DROP TABLE IF EXISTS `medicine_category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `medicine_category` (
-  `category_id` int NOT NULL AUTO_INCREMENT,
+  `category_id` int(11) NOT NULL AUTO_INCREMENT,
   `category_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
@@ -315,7 +375,7 @@ DROP TABLE IF EXISTS `medicine_payment_status`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `medicine_payment_status` (
-  `medicine_payment_status_id` int NOT NULL AUTO_INCREMENT,
+  `medicine_payment_status_id` int(11) NOT NULL AUTO_INCREMENT,
   `medicine_payment_status_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
@@ -343,10 +403,10 @@ DROP TABLE IF EXISTS `message`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `message` (
-  `message_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int DEFAULT NULL,
-  `profile_doctor_id` int DEFAULT NULL,
-  `sender_id` int DEFAULT NULL,
+  `message_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `profile_doctor_id` int(11) DEFAULT NULL,
+  `sender_id` int(11) DEFAULT NULL,
   `message_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
@@ -379,12 +439,12 @@ DROP TABLE IF EXISTS `prescription_detail`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `prescription_detail` (
-  `prescription_detail_id` int NOT NULL AUTO_INCREMENT,
-  `medicine_id` int DEFAULT NULL,
-  `prescription_id` int DEFAULT NULL,
+  `prescription_detail_id` int(11) NOT NULL AUTO_INCREMENT,
+  `medicine_id` int(11) DEFAULT NULL,
+  `prescription_id` int(11) DEFAULT NULL,
   `medicine_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `usage_instruction` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `quantity` int DEFAULT NULL,
+  `quantity` int(11) DEFAULT NULL,
   `unit_price` decimal(10,2) DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
@@ -416,7 +476,7 @@ DROP TABLE IF EXISTS `prescriptions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `prescriptions` (
-  `prescription_id` int NOT NULL AUTO_INCREMENT,
+  `prescription_id` int(11) NOT NULL AUTO_INCREMENT,
   `prescription_date` date DEFAULT NULL,
   `diagnosis` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `symptoms` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
@@ -425,10 +485,10 @@ CREATE TABLE `prescriptions` (
   `updated_date` datetime DEFAULT NULL,
   `deleted_date` datetime DEFAULT NULL,
   `active` tinyint(1) DEFAULT NULL,
-  `booking_id` int DEFAULT NULL,
-  `medicine_payment_status_id` int DEFAULT NULL,
+  `booking_id` int(11) DEFAULT NULL,
+  `medicine_payment_status_id` int(11) DEFAULT NULL,
   `medicine_payment_Txn_Ref` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `service_payment_status_id` int DEFAULT NULL,
+  `service_payment_status_id` int(11) DEFAULT NULL,
   `service_payment_Txn_Ref` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`prescription_id`),
   KEY `booking_id` (`booking_id`),
@@ -458,7 +518,7 @@ DROP TABLE IF EXISTS `profile_doctor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `profile_doctor` (
-  `profile_doctor_id` int NOT NULL AUTO_INCREMENT,
+  `profile_doctor_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `birthday` datetime DEFAULT NULL,
   `phonenumber` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -476,8 +536,8 @@ CREATE TABLE `profile_doctor` (
   `updated_date` datetime DEFAULT NULL,
   `deleted_date` datetime DEFAULT NULL,
   `active` tinyint(1) DEFAULT NULL,
-  `user_id` int DEFAULT NULL,
-  `specialty_id` int DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `specialty_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`profile_doctor_id`),
   KEY `user_id` (`user_id`),
   KEY `specialty_id` (`specialty_id`),
@@ -504,7 +564,7 @@ DROP TABLE IF EXISTS `profile_patient`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `profile_patient` (
-  `profile_patient_id` int NOT NULL AUTO_INCREMENT,
+  `profile_patient_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `phonenumber` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `birthday` datetime DEFAULT NULL,
@@ -520,7 +580,7 @@ CREATE TABLE `profile_patient` (
   `updated_date` datetime DEFAULT NULL,
   `deleted_date` datetime DEFAULT NULL,
   `active` tinyint(1) DEFAULT NULL,
-  `user_id` int DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`profile_patient_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `profile_patient_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
@@ -551,8 +611,8 @@ CREATE TABLE `provinces` (
   `full_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `full_name_en` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `code_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `vietnam_unit_id` int DEFAULT NULL,
-  `vietnam_region_id` int DEFAULT NULL,
+  `vietnam_unit_id` int(11) DEFAULT NULL,
+  `vietnam_region_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`code`),
   KEY `idx_provinces_region` (`vietnam_region_id`),
   KEY `idx_provinces_unit` (`vietnam_unit_id`),
@@ -579,7 +639,7 @@ DROP TABLE IF EXISTS `role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `role` (
-  `role_id` int NOT NULL AUTO_INCREMENT,
+  `role_id` int(11) NOT NULL AUTO_INCREMENT,
   `role_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
@@ -607,20 +667,19 @@ DROP TABLE IF EXISTS `schedule`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `schedule` (
-  `schedule_id` int NOT NULL AUTO_INCREMENT,
-  `profile_doctor_id` int DEFAULT NULL,
+  `schedule_id` int(11) NOT NULL AUTO_INCREMENT,
+  `profile_doctor_id` int(11) DEFAULT NULL,
   `date` date DEFAULT NULL,
+  `time_begin` datetime DEFAULT NULL,
+  `time_end` datetime DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
   `deleted_date` datetime DEFAULT NULL,
   `active` tinyint(1) DEFAULT NULL,
-  `time_slot_id` int DEFAULT NULL,
   `booked` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`schedule_id`),
   KEY `profile_doctor_id` (`profile_doctor_id`),
-  KEY `time_slot_id` (`time_slot_id`),
-  CONSTRAINT `schedule_ibfk_1` FOREIGN KEY (`profile_doctor_id`) REFERENCES `profile_doctor` (`profile_doctor_id`),
-  CONSTRAINT `schedule_ibfk_2` FOREIGN KEY (`time_slot_id`) REFERENCES `time_slot` (`time_slot_id`)
+  CONSTRAINT `schedule_ibfk_1` FOREIGN KEY (`profile_doctor_id`) REFERENCES `profile_doctor` (`profile_doctor_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=190 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -630,7 +689,6 @@ CREATE TABLE `schedule` (
 
 LOCK TABLES `schedule` WRITE;
 /*!40000 ALTER TABLE `schedule` DISABLE KEYS */;
-INSERT INTO `schedule` VALUES (16,14,'2023-10-13','2023-10-13 14:47:45',NULL,NULL,1,41,0),(17,14,'2023-10-13','2023-10-13 14:47:45',NULL,NULL,1,42,0),(18,14,'2023-10-13','2023-10-13 14:47:45',NULL,NULL,1,43,0),(19,14,'2023-10-13','2023-10-13 14:47:45',NULL,NULL,1,44,0),(20,14,'2023-10-13','2023-10-13 14:47:45',NULL,NULL,1,45,0),(21,14,'2023-10-13','2023-10-13 14:47:45',NULL,NULL,1,53,0),(22,14,'2023-10-13','2023-10-13 14:47:45',NULL,NULL,1,54,0),(23,14,'2023-10-13','2023-10-13 14:47:45',NULL,NULL,1,55,0),(24,14,'2023-10-13','2023-10-13 14:47:45',NULL,NULL,1,56,0),(25,14,'2023-10-13','2023-10-13 14:47:45',NULL,NULL,1,57,0),(26,14,'2023-10-14','2023-10-13 14:48:01',NULL,NULL,1,41,0),(27,14,'2023-10-14','2023-10-13 14:48:01',NULL,NULL,1,42,0),(28,14,'2023-10-14','2023-10-13 14:48:01',NULL,NULL,1,43,1),(29,14,'2023-10-14','2023-10-13 14:48:01',NULL,NULL,1,44,1),(30,14,'2023-10-14','2023-10-13 14:48:01',NULL,NULL,1,53,1),(31,14,'2023-10-14','2023-10-13 14:48:01',NULL,NULL,1,54,0),(32,14,'2023-10-14','2023-10-13 14:48:01',NULL,NULL,1,55,0),(33,14,'2023-10-14','2023-10-13 14:48:01',NULL,NULL,1,56,0),(34,14,'2023-10-14','2023-10-13 14:48:01',NULL,NULL,1,57,0),(35,14,'2023-10-15','2023-10-13 14:48:30',NULL,NULL,1,47,1),(36,14,'2023-10-15','2023-10-13 14:48:30',NULL,NULL,1,48,0),(37,14,'2023-10-15','2023-10-13 14:48:30',NULL,NULL,1,49,1),(38,14,'2023-10-15','2023-10-13 14:48:30',NULL,NULL,1,50,0),(39,14,'2023-10-15','2023-10-13 14:48:30',NULL,NULL,1,51,0),(40,14,'2023-10-15','2023-10-13 14:48:30',NULL,NULL,1,52,0),(41,14,'2023-10-15','2023-10-13 14:48:30',NULL,NULL,1,53,0),(42,14,'2023-10-15','2023-10-13 14:48:30',NULL,NULL,1,57,0),(43,14,'2023-10-15','2023-10-13 14:48:30',NULL,NULL,1,58,0),(44,14,'2023-10-15','2023-10-13 14:48:30',NULL,NULL,1,59,0),(45,14,'2023-10-15','2023-10-13 14:48:30',NULL,NULL,1,60,0),(46,9,'2023-10-13','2023-10-13 14:49:35',NULL,NULL,1,61,0),(47,9,'2023-10-13','2023-10-13 14:49:35',NULL,NULL,1,62,0),(48,9,'2023-10-13','2023-10-13 14:49:35',NULL,NULL,1,63,0),(49,9,'2023-10-13','2023-10-13 14:49:35',NULL,NULL,1,64,0),(50,9,'2023-10-13','2023-10-13 14:49:35',NULL,NULL,1,65,0),(51,9,'2023-10-13','2023-10-13 14:49:35',NULL,NULL,1,66,0),(52,9,'2023-10-13','2023-10-13 14:49:35',NULL,NULL,1,67,0),(53,9,'2023-10-13','2023-10-13 14:49:35',NULL,NULL,1,68,0),(54,9,'2023-10-14','2023-10-13 14:49:43',NULL,NULL,1,67,0),(55,9,'2023-10-14','2023-10-13 14:49:43',NULL,NULL,1,68,0),(56,9,'2023-10-14','2023-10-13 14:49:43',NULL,NULL,1,69,0),(57,9,'2023-10-14','2023-10-13 14:49:43',NULL,NULL,1,70,0),(58,9,'2023-10-15','2023-10-13 14:49:56',NULL,NULL,1,61,0),(59,9,'2023-10-15','2023-10-13 14:49:56',NULL,NULL,1,62,0),(60,9,'2023-10-15','2023-10-13 14:49:56',NULL,NULL,1,63,1),(61,9,'2023-10-15','2023-10-13 14:49:56',NULL,NULL,1,64,0),(62,9,'2023-10-15','2023-10-13 14:49:56',NULL,NULL,1,65,0),(63,9,'2023-10-15','2023-10-13 14:49:56',NULL,NULL,1,66,0),(64,9,'2023-10-15','2023-10-13 14:49:56',NULL,NULL,1,67,0),(65,9,'2023-10-15','2023-10-13 14:49:56',NULL,NULL,1,68,1),(66,9,'2023-10-15','2023-10-13 14:49:56',NULL,NULL,1,69,0),(67,9,'2023-10-15','2023-10-13 14:49:56',NULL,NULL,1,70,0),(68,10,'2023-10-13','2023-10-13 14:50:16',NULL,NULL,1,61,0),(69,10,'2023-10-13','2023-10-13 14:50:16',NULL,NULL,1,62,0),(70,10,'2023-10-13','2023-10-13 14:50:16',NULL,NULL,1,63,0),(71,10,'2023-10-13','2023-10-13 14:50:16',NULL,NULL,1,64,0),(72,10,'2023-10-13','2023-10-13 14:50:16',NULL,NULL,1,65,0),(73,10,'2023-10-13','2023-10-13 14:50:16',NULL,NULL,1,66,0),(74,10,'2023-10-13','2023-10-13 14:50:16',NULL,NULL,1,67,0),(75,10,'2023-10-13','2023-10-13 14:50:16',NULL,NULL,1,68,0),(76,10,'2023-10-13','2023-10-13 14:50:16',NULL,NULL,1,69,0),(77,10,'2023-10-13','2023-10-13 14:50:16',NULL,NULL,1,70,0),(78,10,'2023-10-14','2023-10-13 14:50:24',NULL,NULL,1,61,1),(79,10,'2023-10-14','2023-10-13 14:50:24',NULL,NULL,1,62,1),(80,10,'2023-10-14','2023-10-13 14:50:24',NULL,NULL,1,63,0),(81,10,'2023-10-14','2023-10-13 14:50:24',NULL,NULL,1,64,0),(82,10,'2023-10-14','2023-10-13 14:50:24',NULL,NULL,1,65,0),(83,10,'2023-10-14','2023-10-13 14:50:24',NULL,NULL,1,66,0),(84,10,'2023-10-14','2023-10-13 14:50:24',NULL,NULL,1,67,0),(85,10,'2023-10-15','2023-10-13 14:50:37',NULL,NULL,1,61,0),(86,10,'2023-10-15','2023-10-13 14:50:37',NULL,NULL,1,62,0),(87,10,'2023-10-15','2023-10-13 14:50:37',NULL,NULL,1,63,0),(88,10,'2023-10-15','2023-10-13 14:50:37',NULL,NULL,1,64,0),(89,10,'2023-10-15','2023-10-13 14:50:37',NULL,NULL,1,65,0),(90,10,'2023-10-15','2023-10-13 14:50:37',NULL,NULL,1,66,0),(91,10,'2023-10-15','2023-10-13 14:50:37',NULL,NULL,1,67,1),(92,10,'2023-10-15','2023-10-13 14:50:37',NULL,NULL,1,68,1),(93,10,'2023-10-15','2023-10-13 14:50:37',NULL,NULL,1,69,0),(94,10,'2023-10-15','2023-10-13 14:50:37',NULL,NULL,1,70,0),(95,10,'2023-10-16','2023-10-13 14:50:47',NULL,NULL,1,61,0),(96,10,'2023-10-16','2023-10-13 14:50:47',NULL,NULL,1,62,0),(97,10,'2023-10-16','2023-10-13 14:50:47',NULL,NULL,1,63,1),(98,10,'2023-10-16','2023-10-13 14:50:47',NULL,NULL,1,64,0),(99,10,'2023-10-16','2023-10-13 14:50:47',NULL,NULL,1,65,0),(100,10,'2023-10-16','2023-10-13 14:50:47',NULL,NULL,1,66,0),(101,10,'2023-10-16','2023-10-13 14:50:47',NULL,NULL,1,67,0),(102,10,'2023-10-16','2023-10-13 14:50:47',NULL,NULL,1,68,0),(103,10,'2023-10-17','2023-10-13 14:50:57',NULL,NULL,1,41,0),(104,10,'2023-10-17','2023-10-13 14:50:57',NULL,NULL,1,42,0),(105,10,'2023-10-17','2023-10-13 14:50:57',NULL,NULL,1,43,0),(106,10,'2023-10-17','2023-10-13 14:50:57',NULL,NULL,1,44,0),(107,10,'2023-10-17','2023-10-13 14:50:57',NULL,NULL,1,45,0),(108,10,'2023-10-17','2023-10-13 14:50:57',NULL,NULL,1,46,0),(109,10,'2023-10-17','2023-10-13 14:50:57',NULL,NULL,1,47,0),(110,10,'2023-10-17','2023-10-13 14:50:58',NULL,NULL,1,48,1),(111,10,'2023-10-18','2023-10-13 14:51:12',NULL,NULL,1,53,0),(112,10,'2023-10-18','2023-10-13 14:51:12',NULL,NULL,1,54,0),(113,10,'2023-10-18','2023-10-13 14:51:12',NULL,NULL,1,55,0),(114,10,'2023-10-18','2023-10-13 14:51:12',NULL,NULL,1,56,0),(115,10,'2023-10-18','2023-10-13 14:51:12',NULL,NULL,1,57,0),(116,14,'2023-10-13','2023-10-13 16:39:22',NULL,NULL,1,1,0),(117,14,'2023-10-13','2023-10-13 16:39:22',NULL,NULL,1,2,0),(118,14,'2023-10-13','2023-10-13 16:39:22',NULL,NULL,1,3,0),(119,14,'2023-10-13','2023-10-13 16:39:22',NULL,NULL,1,4,0),(120,14,'2023-10-13','2023-10-13 16:39:22',NULL,NULL,1,5,0),(121,14,'2023-10-13','2023-10-13 16:39:22',NULL,NULL,1,6,0),(122,14,'2023-10-13','2023-10-13 16:39:22',NULL,NULL,1,7,0),(123,14,'2023-10-15','2023-10-13 16:40:10',NULL,NULL,1,61,0),(124,14,'2023-10-15','2023-10-13 16:40:11',NULL,NULL,1,62,0),(125,14,'2023-10-15','2023-10-13 16:40:11',NULL,NULL,1,63,0),(126,14,'2023-10-15','2023-10-13 16:40:11',NULL,NULL,1,64,0),(127,14,'2023-10-16','2023-10-13 16:40:19',NULL,NULL,1,66,0),(128,14,'2023-10-16','2023-10-13 16:40:19',NULL,NULL,1,67,1),(129,14,'2023-10-16','2023-10-13 16:40:19',NULL,NULL,1,68,1),(130,14,'2023-10-16','2023-10-13 16:40:19',NULL,NULL,1,70,0),(131,14,'2023-10-16','2023-10-13 16:40:19',NULL,NULL,1,69,0),(132,14,'2023-10-18','2023-10-13 19:14:14',NULL,NULL,1,41,0),(133,14,'2023-10-18','2023-10-13 19:14:15',NULL,NULL,1,42,0),(134,14,'2023-10-18','2023-10-13 19:14:15',NULL,NULL,1,43,1),(135,14,'2023-10-17','2023-10-13 19:48:36',NULL,NULL,1,66,0),(136,14,'2023-10-17','2023-10-13 19:48:36',NULL,NULL,1,67,0),(137,14,'2023-10-17','2023-10-13 19:48:36',NULL,NULL,1,68,1),(138,14,'2023-10-17','2023-10-13 19:48:36',NULL,NULL,1,70,0),(139,15,'2023-10-19','2023-10-16 20:32:28',NULL,NULL,1,3,0),(140,15,'2023-10-19','2023-10-16 20:32:28',NULL,NULL,1,4,1),(141,15,'2023-10-19','2023-10-16 20:32:28',NULL,NULL,1,5,0),(142,15,'2023-10-19','2023-10-16 20:32:28',NULL,NULL,1,6,0),(143,15,'2023-10-19','2023-10-16 20:32:28',NULL,NULL,1,7,0),(144,15,'2023-10-19','2023-10-16 20:32:28',NULL,NULL,1,8,0),(145,15,'2023-10-19','2023-10-16 20:32:28',NULL,NULL,1,9,0),(146,15,'2023-10-19','2023-10-16 20:32:28',NULL,NULL,1,10,0),(147,15,'2023-10-19','2023-10-16 20:32:28',NULL,NULL,1,11,0),(148,15,'2023-10-19','2023-10-16 20:32:28',NULL,NULL,1,12,1),(149,15,'2023-10-19','2023-10-16 20:32:28',NULL,NULL,1,13,0),(150,15,'2023-10-19','2023-10-16 20:32:28',NULL,NULL,1,14,0),(151,15,'2023-10-19','2023-10-16 20:32:28',NULL,NULL,1,15,0),(152,15,'2023-10-20','2023-10-16 20:32:38',NULL,NULL,1,61,0),(153,15,'2023-10-20','2023-10-16 20:32:38',NULL,NULL,1,62,0),(154,15,'2023-10-20','2023-10-16 20:32:38',NULL,NULL,1,64,0),(155,15,'2023-10-20','2023-10-16 20:32:38',NULL,NULL,1,65,0),(156,15,'2023-10-20','2023-10-16 20:32:38',NULL,NULL,1,67,0),(157,15,'2023-10-20','2023-10-16 20:32:38',NULL,NULL,1,68,0),(158,15,'2023-10-20','2023-10-16 20:32:38',NULL,NULL,1,69,0),(159,9,'2023-10-17','2023-10-16 20:33:30',NULL,NULL,1,41,0),(160,9,'2023-10-17','2023-10-16 20:33:30',NULL,NULL,1,42,0),(161,9,'2023-10-17','2023-10-16 20:33:30',NULL,NULL,1,43,0),(162,9,'2023-10-17','2023-10-16 20:33:30',NULL,NULL,1,44,0),(163,9,'2023-10-17','2023-10-16 20:33:30',NULL,NULL,1,45,0),(164,9,'2023-10-17','2023-10-16 20:33:30',NULL,NULL,1,46,0),(165,9,'2023-10-17','2023-10-16 20:33:31',NULL,NULL,1,47,0),(166,9,'2023-10-17','2023-10-16 20:33:31',NULL,NULL,1,48,0),(167,9,'2023-10-17','2023-10-16 20:33:31',NULL,NULL,1,49,0),(168,9,'2023-10-17','2023-10-16 20:33:31',NULL,NULL,1,50,0),(169,10,'2023-10-18','2023-10-16 20:33:48',NULL,NULL,1,62,0),(170,10,'2023-10-18','2023-10-16 20:33:48',NULL,NULL,1,63,0),(171,10,'2023-10-18','2023-10-16 20:33:48',NULL,NULL,1,64,0),(172,10,'2023-10-18','2023-10-16 20:33:48',NULL,NULL,1,65,0),(173,10,'2023-10-18','2023-10-16 20:33:48',NULL,NULL,1,69,0),(174,10,'2023-10-18','2023-10-16 20:33:48',NULL,NULL,1,70,0),(175,11,'2023-10-18','2023-10-16 20:33:59',NULL,NULL,1,42,0),(176,11,'2023-10-18','2023-10-16 20:33:59',NULL,NULL,1,43,0),(177,11,'2023-10-18','2023-10-16 20:33:59',NULL,NULL,1,44,0),(178,11,'2023-10-18','2023-10-16 20:33:59',NULL,NULL,1,45,0),(179,11,'2023-10-18','2023-10-16 20:33:59',NULL,NULL,1,47,0),(180,11,'2023-10-18','2023-10-16 20:33:59',NULL,NULL,1,48,0),(181,11,'2023-10-18','2023-10-16 20:33:59',NULL,NULL,1,49,0),(182,11,'2023-10-18','2023-10-16 20:33:59',NULL,NULL,1,55,0),(183,11,'2023-10-19','2023-10-16 20:34:09',NULL,NULL,1,13,0),(184,11,'2023-10-19','2023-10-16 20:34:09',NULL,NULL,1,14,0),(185,11,'2023-10-19','2023-10-16 20:34:09',NULL,NULL,1,22,0),(186,11,'2023-10-19','2023-10-16 20:34:09',NULL,NULL,1,23,0),(187,11,'2023-10-19','2023-10-16 20:34:09',NULL,NULL,1,24,1),(188,11,'2023-10-19','2023-10-16 20:34:09',NULL,NULL,1,25,0),(189,11,'2023-10-19','2023-10-16 20:34:09',NULL,NULL,1,27,0);
 /*!40000 ALTER TABLE `schedule` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -642,7 +700,7 @@ DROP TABLE IF EXISTS `service_payment_status`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `service_payment_status` (
-  `service_payment_status_id` int NOT NULL AUTO_INCREMENT,
+  `service_payment_status_id` int(11) NOT NULL AUTO_INCREMENT,
   `service_payment_status_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
@@ -670,7 +728,7 @@ DROP TABLE IF EXISTS `specialty`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `specialty` (
-  `specialty_id` int NOT NULL AUTO_INCREMENT,
+  `specialty_id` int(11) NOT NULL AUTO_INCREMENT,
   `specialty_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -700,7 +758,7 @@ DROP TABLE IF EXISTS `time_distance`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `time_distance` (
-  `time_distance_id` int NOT NULL AUTO_INCREMENT,
+  `time_distance_id` int(11) NOT NULL AUTO_INCREMENT,
   `time_distance_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
@@ -728,13 +786,13 @@ DROP TABLE IF EXISTS `time_slot`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `time_slot` (
-  `time_slot_id` int NOT NULL AUTO_INCREMENT,
+  `time_slot_id` int(11) NOT NULL AUTO_INCREMENT,
   `time_begin` datetime DEFAULT NULL,
   `time_end` datetime DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
   `deleted_date` datetime DEFAULT NULL,
-  `time_distance_id` int DEFAULT NULL,
+  `time_distance_id` int(11) DEFAULT NULL,
   `active` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`time_slot_id`),
   KEY `time_distance_id` (`time_distance_id`),
@@ -760,7 +818,7 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `user_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `firstname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `lastname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -773,7 +831,7 @@ CREATE TABLE `user` (
   `updated_date` datetime DEFAULT NULL,
   `deleted_date` datetime DEFAULT NULL,
   `active` tinyint(1) DEFAULT NULL,
-  `role_id` int DEFAULT NULL,
+  `role_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username_UNIQUE` (`username`),
   UNIQUE KEY `email_UNIQUE` (`email`),
@@ -800,7 +858,7 @@ DROP TABLE IF EXISTS `vietnam_regions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `vietnam_regions` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `name_en` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `code_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -827,7 +885,7 @@ DROP TABLE IF EXISTS `vietnam_units`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `vietnam_units` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `full_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `full_name_en` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `short_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -863,7 +921,7 @@ CREATE TABLE `wards` (
   `full_name_en` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `code_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `district_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `vietnam_unit_id` int DEFAULT NULL,
+  `vietnam_unit_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`code`),
   KEY `idx_wards_district` (`district_code`),
   KEY `idx_wards_unit` (`vietnam_unit_id`),
@@ -891,4 +949,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-09 19:48:02
+-- Dump completed on 2024-04-02 20:29:05
